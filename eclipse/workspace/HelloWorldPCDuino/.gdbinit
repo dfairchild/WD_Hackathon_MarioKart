@@ -1,1 +1,0 @@
-set systroot D:\Users\Nick\Desktop\eclipse\cross-toolchain\arm-linux-gnueabihf
