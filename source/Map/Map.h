@@ -1,6 +1,7 @@
 #define MAX_CARS 10
 #define MAX_TILE_WIDTH 1000
 #define MAX_TILE_HEIGHT 1000
+#define MAX_POTENTIAL_TILES 100
 
 struct Point
 {
@@ -15,17 +16,40 @@ public:
 	type_info* ti; // pointer, not reference so it can be copied
 };
 
-class Tile
+/*class Tile
 {
 public:
 	Point p;
-};
+};*/
 
 struct CarInfo
 {
 	Point p;
 	float LastRecordedSpeed;
 	float LastRecordedAngle;
+};
+
+class Tile {
+
+	// Tile is a class to hold tile data info 
+	// Map is comprised of a 1000x1000 of tiles 
+	// Each tile will equate to 0.25"
+	// Max map size is therefore a ~20.8' per side
+
+private:
+	char type;
+	char defaultType;
+
+public:
+	Tile() {};
+	Tile(char defaultType) { this->defaultType = defaultType; };
+	~Tile() {};
+
+	char GetType(){	return type; };
+	void SetType(int newType){ type = newType; };
+	void SetDefaultType(int newDefaultType){ defaultType = newDefaultType; };
+	void ResetToDefault(){ type = defaultType; };
+
 };
 
 
@@ -36,16 +60,17 @@ public:
 	Map(int MapNumber, int NumCars, int scalar);
 	~Map();
 
-	void UpdateLocation(int CarNum, float Distance, float DegOffNorth, TileInfo *ti);
-	Point* GetLocation(int CarNum);
-	float GetDistanceBetweenCars(int car1, int car2);
+	Point UpdateLocation(Point p, float Distance, float DegOffNorth);
+	float Map::GetDistanceBetweenCars(Point car1, Point car2);
 
-	bool IsCarFacingAnother(int CarNum, float DegOffNorth);
+	Tile* HitTiles(Point start, Point end);
+
+	void LoadMap(int mapNumber, Map map);
+	void LoadMap(int mapNumber);
+	void SaveMap(int mapNumber);
 private:
 	int scalar;
-	int numcars;
-	CarInfo cars[MAX_CARS];
-	TileInfo tiles[MAX_TILE_WIDTH][MAX_TILE_HEIGHT];
+	Tile tiles[MAX_TILE_WIDTH][MAX_TILE_HEIGHT];
 };
 
 //Helper functions

@@ -16,31 +16,46 @@ Map::~Map()
 
 }
 
-void Map::UpdateLocation(int CarNum, float Distance, float DegOffNorth, TileInfo *ti)
+Point UpdateLocation(Point p, float Distance, float DegOffNorth)
 {
-
+	return FindNewPosition(p, Distance, DegOffNorth);
 }
 
-Point* Map::GetLocation(int CarNum)
+float Map::GetDistanceBetweenCars(Point car1, Point car2)
 {
-	Point *p = new Point();
-
-	*p = cars[CarNum].p;
-
-	return p;
+	return std::sqrt(std::pow(car2.x - car1.x, 2) + std::pow(car2.y - car1.y, 2));;
 }
 
-float Map::GetDistanceBetweenCars(int CarNum1, int CarNum2)
+Tile* Map::HitTiles(Point start, Point end)
 {
-	CarInfo car1 = cars[CarNum1];
-	CarInfo car2 = cars[CarNum2];
-	return std::sqrt(std::pow(car2.p.x - car1.p.x, 2) + std::pow(car2.p.y - car1.p.y, 2));;
-}
+	Tile HitTiles[MAX_POTENTIAL_TILES];
 
-bool Map::IsCarFacingAnother(int CarNum, float DegOffNorth)
-{
+	int XDirection = (start.x < end.x ? 1 : -1);
+	int YDirection = (start.y < end.y ? 1 : -1);
 
-	return false;
+	int leftX = (XDirection > 0 ? start.x : end.x);
+	int bottomY = (YDirection > 0 ? start.y : end.y);
+
+	int rightX = (XDirection > 0 ? end.x : start.x);
+	int topY = (YDirection > 0 ? end.y : start.y);
+
+	int tiles = 0;
+
+	for (int x = leftX; x <= rightX; x++)
+	{
+		for (int y = bottomY; y <= topY; y++)
+		{
+			Point p = { x, y };
+			bool collinear = OnSegment(start, end, p);
+
+			if (collinear)
+			{
+				HitTiles[tiles++] = this->tiles[x][y];
+			}
+		}
+	}
+
+	return HitTiles;
 }
 
 int main(void)
