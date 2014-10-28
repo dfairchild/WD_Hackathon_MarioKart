@@ -74,3 +74,9 @@ int Orientation(Point p, Point q, Point r);
 bool DoIntersect(Point p1, Point p2, Point q1, Point q2);
 Point FindNewPosition(Point p1, float distance, float deg);
 double DegreesToRadians(float deg);
+
+// Tile types and their character values 
+const char DIRT   = 'D';
+const char ROAD   = '.';
+const char BANANA = 'B'; 
+const char WALL   = '|'; 

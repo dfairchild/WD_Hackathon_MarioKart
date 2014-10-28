@@ -15,7 +15,7 @@ void Map::LoadMap( int mapNumber, Map map ){
 }
 
 // Load map from a file
-void Map::LoadMap( int mapNumber ){
+void Map::LoadMap( int mapNumber, int scale ){
 		
 	std::string mapBaseFilename = "map";
 	std::ostringstream mapFilename;
@@ -45,11 +45,21 @@ void Map::LoadMap( int mapNumber ){
 			int stringLength = line.size(); 
 
 			// iterate over the line one character at a time and fill in our map
-			for ( int columnIndex = 0; columnIndex < stringLength; columnIndex++ ){
-				tiles[rowIndex][columnIndex] = Tile(line.at(columnIndex));  //DEBUG -- would be faster to use C-strings if necessary
+			for ( int lineIndex = 0; lineIndex < stringLength; lineIndex++ ){
+
+                // column index will be the index to the first array location that should 
+                // contain the new character, we will use scale iterator for filling in the block
+                columnIndex = ( lineIndex * scale );
+
+				// scale along X and Y axes (column index) by scale factor 
+				for ( int scaleIteratorX = 0; scaleIteratorX < scale; scaleIteratorX++ ){
+					for ( intScaleIteratorY = 0; scaleIteratorY < scale; scaleIteratorY++ ){
+						tiles[rowIndex + scaleIteratorY][columnIndex + scaleIteratorX] = Tile(line.at(columnIndex));  //DEBUG -- would be faster to use C-strings if necessary
+					}
+                }
 			}
 
-			rowIndex++;
+			rowIndex += scale;
 
 		}
 
