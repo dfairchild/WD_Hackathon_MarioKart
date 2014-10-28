@@ -4,6 +4,8 @@
 #define MAX_POTENTIAL_TILES 100
 #define TRACK_WIDTH_IN_TILES 10
 
+#include<vector>
+
 struct Point
 {
 	double x;
@@ -22,45 +24,48 @@ class Tile {
 	// Each tile will equate to 0.25"
 	// Max map size is therefore a ~20.8' per side
 
-private:
+public:
 	char type;
 	char defaultType;
-	Point p;
 
-public:
 	Tile() {};
-	Tile(char defaultType) { this->defaultType = defaultType; };
-	~Tile() {};
+	Tile(char defaultType) { this->defaultType = '#'; };
 
-	char GetType(){	return type; };
-	void SetType(int newType){ type = newType; };
-	void SetDefaultType(int newDefaultType){ defaultType = newDefaultType; };
 	void ResetToDefault(){ type = defaultType; };
 
-	bool operator==(const Tile &other) { return (type == other.type && p == other.p); };
+	bool operator==(const Tile &other) { return (type == other.type); };
 	bool operator!=(const Tile &other) { return !(*this == other); };
 
 };
 
+struct TileInfo
+{
+	Tile tile;
+	Point p;
+
+	bool operator==(const TileInfo t) const
+	{
+		return (p.x == t.p.x && p.y == t.p.y);
+	}
+};
 
 class Map
 {
 public:
 	Map(int MapNumber, int NumCars);
 	Map(int MapNumber, int NumCars, int scalar);
-	~Map();
 
 	Point UpdateLocation(Point p, float Distance, float DegOffNorth);
 	double Map::GetDistanceBetweenCars(Point car1, Point car2);
 
-	Tile* HitTiles(Point start, Point end);
+	TileInfo* HitTiles(Point start, Point end, int &numTiles);
 
 	void LoadMap(int mapNumber, Map map);
 	void LoadMap(int mapNumber);
 	void SaveMap(int mapNumber);
 private:
 	int scalar;
-	Tile tiles[MAX_TILE_WIDTH][MAX_TILE_HEIGHT];
+	std::vector< std::vector<Tile> >  tiles;
 };
 
 //Helper functions

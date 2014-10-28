@@ -7,7 +7,6 @@
 // Includes from project 
 #include "Map.h" 
 
-
 // Function to load map from file 
 void Map::LoadMap( int mapNumber, Map map ){
 
@@ -85,7 +84,7 @@ void Map::SaveMap( int mapNumber ){
 			std::string line;
 
 			for (int columnIndex = 0; columnIndex < MAX_TILE_WIDTH; columnIndex++){
-				line += tiles[rowIndex][columnIndex].GetType(); 
+				line += tiles[rowIndex][columnIndex].type; 
 			}
 
 			mapFile << line << "\n"; 
