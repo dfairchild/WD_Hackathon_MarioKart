@@ -23,9 +23,9 @@ int Orientation(Point p, Point q, Point r)
 	// Slides with derivation
 	// http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf
 
-	int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+	double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
 
-	if (val == 0) return 0;
+	if (val == 0.0) return 0;
 
 	return (val > 0) ? 1 : 2; // clockwise or counter-clockwise
 }
@@ -68,7 +68,7 @@ Point FindNewPosition(Point p, float distance, float deg)
 	return p2;
 }
 
-float DegreesToRadians(float deg)
+double DegreesToRadians(float deg)
 {
 	return (deg * PI / 180);
 }

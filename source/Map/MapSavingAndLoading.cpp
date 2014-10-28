@@ -1,8 +1,8 @@
 // Includes from std 
-#include <iostream> // io stream 
-#include <fstream> // file stream 
-#include <sstream> // string stream 
-#include <string> // string 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 
 // Includes from project 
 #include "Map.h" 

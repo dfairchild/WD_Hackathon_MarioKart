@@ -2,31 +2,17 @@
 #define MAX_TILE_WIDTH 1000
 #define MAX_TILE_HEIGHT 1000
 #define MAX_POTENTIAL_TILES 100
+#define TRACK_WIDTH_IN_TILES 10
 
 struct Point
 {
-	float x;
-	float y;
-};
+	double x;
+	double y;
 
-class TileInfo
-{
-public:
-	void* tile;
-	type_info* ti; // pointer, not reference so it can be copied
-};
-
-/*class Tile
-{
-public:
-	Point p;
-};*/
-
-struct CarInfo
-{
-	Point p;
-	float LastRecordedSpeed;
-	float LastRecordedAngle;
+	bool operator==(const Point p) const
+	{
+		return (x == p.x && y == p.y);
+	}
 };
 
 class Tile {
@@ -39,6 +25,7 @@ class Tile {
 private:
 	char type;
 	char defaultType;
+	Point p;
 
 public:
 	Tile() {};
@@ -49,6 +36,9 @@ public:
 	void SetType(int newType){ type = newType; };
 	void SetDefaultType(int newDefaultType){ defaultType = newDefaultType; };
 	void ResetToDefault(){ type = defaultType; };
+
+	bool operator==(const Tile &other) { return (type == other.type && p == other.p); };
+	bool operator!=(const Tile &other) { return !(*this == other); };
 
 };
 
@@ -61,7 +51,7 @@ public:
 	~Map();
 
 	Point UpdateLocation(Point p, float Distance, float DegOffNorth);
-	float Map::GetDistanceBetweenCars(Point car1, Point car2);
+	double Map::GetDistanceBetweenCars(Point car1, Point car2);
 
 	Tile* HitTiles(Point start, Point end);
 
@@ -78,4 +68,4 @@ bool OnSegment(Point p, Point q, Point r);
 int Orientation(Point p, Point q, Point r);
 bool DoIntersect(Point p1, Point p2, Point q1, Point q2);
 Point FindNewPosition(Point p1, float distance, float deg);
-float DegreesToRadians(float deg);
+double DegreesToRadians(float deg);

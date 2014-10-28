@@ -21,44 +21,37 @@ Point UpdateLocation(Point p, float Distance, float DegOffNorth)
 	return FindNewPosition(p, Distance, DegOffNorth);
 }
 
-float Map::GetDistanceBetweenCars(Point car1, Point car2)
+double Map::GetDistanceBetweenCars(Point car1, Point car2)
 {
 	return std::sqrt(std::pow(car2.x - car1.x, 2) + std::pow(car2.y - car1.y, 2));;
 }
 
+// Get the tiles hit using the Bresenham line algorithm
 Tile* Map::HitTiles(Point start, Point end)
 {
-	Tile HitTiles[MAX_POTENTIAL_TILES];
+	Tile* HitTiles = new Tile[MAX_POTENTIAL_TILES];
 
-	int XDirection = (start.x < end.x ? 1 : -1);
-	int YDirection = (start.y < end.y ? 1 : -1);
+	int tile = 0;
+	int deltax = end.x - start.x;
+	int deltay = end.y - start.y;
 
-	int leftX = (XDirection > 0 ? start.x : end.x);
-	int bottomY = (YDirection > 0 ? start.y : end.y);
+	double error = 0.0;
+	double deltaerr = abs(deltay / deltax); // Doesn't work on vertical lines.  Need to add handling for that
 
-	int rightX = (XDirection > 0 ? end.x : start.x);
-	int topY = (YDirection > 0 ? end.y : start.y);
+	int y = start.y;
 
-	int tiles = 0;
-
-	for (int x = leftX; x <= rightX; x++)
+	for (int x = start.x; x <= end.x; x++)
 	{
-		for (int y = bottomY; y <= topY; y++)
-		{
-			Point p = { x, y };
-			bool collinear = OnSegment(start, end, p);
+		if (this->tiles[x][y] != HitTiles[tile])
+			HitTiles[tile++] = this->tiles[x][y];
 
-			if (collinear)
-			{
-				HitTiles[tiles++] = this->tiles[x][y];
-			}
+		error += deltaerr;
+		if (error >= 0.5)
+		{
+			y++;
+			error -= 1.0;
 		}
 	}
 
 	return HitTiles;
-}
-
-int main(void)
-{
-	return 0;
 }
