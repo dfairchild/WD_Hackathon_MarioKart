@@ -62,8 +62,18 @@ bool DoIntersect(Point p1, Point p2, Point q1, Point q2)
 Point FindNewPosition(Point p, float distance, float deg)
 {
 	Point p2;
-	p2.x = p.x + (distance * cos(DegreesToRadians(deg)));
-	p2.y = p.y + (distance * sin(DegreesToRadians(deg)));
+
+	deg = int(deg + 360) % 360;
+
+	//if ((deg >= 90) && (deg < 270))
+	//	p2.x = p.x - (distance * cos(DegreesToRadians(deg)));
+	//else
+		p2.x = p.x + (distance * cos(DegreesToRadians(deg)));
+
+	//if ((deg >= 0) && (deg < 180))
+		p2.y = p.y - (distance * sin(DegreesToRadians(deg)));
+	//else
+	//	p2.y = p.y + (distance * sin(DegreesToRadians(deg)));
 
 	return p2;
 }
@@ -71,4 +81,18 @@ Point FindNewPosition(Point p, float distance, float deg)
 double DegreesToRadians(float deg)
 {
 	return (deg * PI / 180);
+}
+
+float ConvertFromNorth(float deg)
+{
+	deg = int(deg + 360) % 360;
+
+	if (deg < 90 && deg >= 0)
+		return 90 - deg;
+	if (deg < 180 && deg >= 90)
+		return 270 + (180 - deg);
+	if (deg < 270 && deg >= 180)
+		return 180 + (270 - deg);
+	if (deg < 360 && deg >= 270)
+		return 90 + (360 - deg);
 }

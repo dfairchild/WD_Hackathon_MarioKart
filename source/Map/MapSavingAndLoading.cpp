@@ -18,16 +18,21 @@ void Map::LoadMap( int mapNumber, Map map ){
 void Map::LoadMap( int mapNumber, int scale ){
 		
 	std::string mapBaseFilename = "map";
-	std::ostringstream mapFilename;
+	std::string mapFilename;
+	char returnVal;
+	_snprintf(&returnVal, sizeof(returnVal), "%d", mapNumber);
+
+	int columnIndex;
 		
 	// concatenate mapNumber to mapBaseFilename to get the actual filename 
-	mapFilename << mapBaseFilename << mapNumber; 
+	mapFilename = mapBaseFilename;
+	mapFilename += returnVal;
 
 	// create a file handle for input file stream 
 	std::ifstream mapFile;
 
 	// open a file, open only takes char* so have to convert to c string http://www.cplusplus.com/forum/beginner/23266/
-	mapFile.open( mapFilename.str().c_str() );
+	mapFile.open( mapFilename.c_str() );
 
 	// test that we successfully opened the file before going any further 
 	if ( mapFile.is_open() ){
@@ -53,8 +58,8 @@ void Map::LoadMap( int mapNumber, int scale ){
 
 				// scale along X and Y axes (column index) by scale factor 
 				for ( int scaleIteratorX = 0; scaleIteratorX < scale; scaleIteratorX++ ){
-					for ( intScaleIteratorY = 0; scaleIteratorY < scale; scaleIteratorY++ ){
-						tiles[rowIndex + scaleIteratorY][columnIndex + scaleIteratorX] = Tile(line.at(columnIndex));  //DEBUG -- would be faster to use C-strings if necessary
+					for (int ScaleIteratorY = 0; ScaleIteratorY < scale; ScaleIteratorY++){
+						tiles[rowIndex + ScaleIteratorY][columnIndex + scaleIteratorX] = Tile(line.at(columnIndex));  //DEBUG -- would be faster to use C-strings if necessary
 					}
                 }
 			}

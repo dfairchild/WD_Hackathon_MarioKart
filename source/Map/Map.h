@@ -29,7 +29,7 @@ public:
 	char defaultType;
 
 	Tile() {};
-	Tile(char defaultType) { this->defaultType = '#'; };
+	Tile(char defaultType) { this->defaultType = this->type = defaultType; };
 
 	void ResetToDefault(){ type = defaultType; };
 
@@ -61,11 +61,16 @@ public:
 	TileInfo* HitTiles(Point start, Point end, int &numTiles);
 
 	void LoadMap(int mapNumber, Map map);
-	void LoadMap(int mapNumber);
+	void LoadMap(int mapNumber, int scale);
 	void SaveMap(int mapNumber);
-private:
-	int scalar;
+
+	void DrawMap(Point p, float Distance, float DegOffNorth);
+
 	std::vector< std::vector<Tile> >  tiles;
+private:
+	void DrawPathLine(Point p, float DegOffNorth);
+	int scalar;
+	
 };
 
 //Helper functions
@@ -74,6 +79,7 @@ int Orientation(Point p, Point q, Point r);
 bool DoIntersect(Point p1, Point p2, Point q1, Point q2);
 Point FindNewPosition(Point p1, float distance, float deg);
 double DegreesToRadians(float deg);
+float ConvertFromNorth(float deg);
 
 // Tile types and their character values 
 const char DIRT   = 'D';

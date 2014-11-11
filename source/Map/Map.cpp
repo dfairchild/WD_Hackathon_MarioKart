@@ -1,8 +1,6 @@
 #include "Map.h"
 #include <cmath>
 #include <utility>
-#include <iostream>
-
 
 Map::Map(int MapNumber, int NumCars)
 {
@@ -23,7 +21,7 @@ Map::Map(int MapNumber, int NumCars, int scalar)
 	for (int i = 0; i < MAX_TILE_WIDTH; i++)
 		for (int j = 0; j < MAX_TILE_HEIGHT; j++)
 		{
-			this->tiles[i].push_back(Tile());
+			this->tiles[i].push_back(Tile('D'));
 		}
 }
 
@@ -32,9 +30,7 @@ Map::Map(int MapNumber, int NumCars, int scalar)
 Point Map::UpdateLocation(Point p, float Distance, float DegOffNorth)
 {
 	// Shift angle to North
-	DegOffNorth += 90;
-
-	Point p2 = { 1, 1 };
+	//DegOffNorth = 90 - DegOffNorth;
 	return FindNewPosition(p, Distance, DegOffNorth);
 }
 
@@ -99,4 +95,60 @@ TileInfo* Map::HitTiles(Point start, Point end, int &numTiles)
 	}
 
 	return HitTiles;
+}
+
+void Map::DrawMap(Point p, float Distance, float DegOffNorth)
+{
+	//DegOffNorth = 90 - DegOffNorth;
+	Point p2 = UpdateLocation(p, Distance, DegOffNorth);
+
+	int numTiles = 0;
+	TileInfo *TileLine = HitTiles(p, p2, numTiles);
+
+	for (int i = 0; i < numTiles; i++)
+	{
+		int x = TileLine[i].p.x;
+		int y = TileLine[i].p.y;
+		tiles[x][y] = Tile('\'');
+		Point* TempPoint = new Point{ TileLine[i].p.x, TileLine[i].p.y };
+		DrawPathLine(*TempPoint, DegOffNorth);
+		delete TempPoint;
+	}
+
+	tiles[p.x][p.y] = Tile('!');
+	tiles[p2.x][p2.y] = Tile('!');
+}
+
+void Map::DrawPathLine(Point p, float DegOffNorth)
+{
+	Point endpoint1 = UpdateLocation(p, TRACK_WIDTH_IN_TILES, DegOffNorth + 90);
+	Point endpoint2 = UpdateLocation(p, TRACK_WIDTH_IN_TILES, DegOffNorth - 90);
+
+	int numTiles1 = 0;
+	TileInfo *line1 = HitTiles(p, endpoint1, numTiles1);
+
+	int numTiles2 = 0;
+	TileInfo *line2 = HitTiles(p, endpoint2, numTiles2);
+
+	for (int i = 0; i < numTiles1; i++)
+	{
+		int x = line1[i].p.x;
+		int y = line1[i].p.y;
+		tiles[x][y] = Tile('.');
+		tiles[x+1][y] = Tile('.');
+		tiles[x-1][y] = Tile('.');
+		tiles[x][y+1] = Tile('.');
+		tiles[x][y-1] = Tile('.');
+	}
+
+	for (int i = 0; i < numTiles2; i++)
+	{
+		int x = line2[i].p.x;
+		int y = line2[i].p.y;
+		tiles[x][y] = Tile('.');
+		tiles[x + 1][y] = Tile('.');
+		tiles[x - 1][y] = Tile('.');
+		tiles[x][y + 1] = Tile('.');
+		tiles[x][y - 1] = Tile('.');
+	}
 }
