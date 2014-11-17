@@ -5,6 +5,7 @@
 
 Map::Map(int MapNumber, int NumCars)
 {
+	this->scalar = 1;
 	Map(MapNumber, NumCars, 1);
 }
 

@@ -31,14 +31,14 @@ void initializePins(){
 	char path[256];
 	memset(path,0,sizeof(path));
 	sprintf(path, "%s%s%d", GPIO_MODE_PATH, GPIO_FILENAME, 2);
-	int pinModeForPin2 = _open(path, std::ios::in);
+	int pinModeForPin2 = open(path, std::ios::in);
 
 	setPinMode(pinModeForPin2, PIN_INPUT);
 
 	//setup pin mode for pin 4 as input ** THIS IS HARD CODED BAD!    
 	memset(path,0,sizeof(path));
 	sprintf(path, "%s%s%d", GPIO_MODE_PATH, GPIO_FILENAME, 4);
-	int pinModeForPin4 = _open(path, std::ios::in);
+	int pinModeForPin4 = open(path, std::ios::in);
 
 	setPinMode(pinModeForPin4, PIN_INPUT);
 
@@ -49,8 +49,8 @@ void writeFile(int fileID, int value)
 	char buffer[4];  
 	memset((void *)buffer, 0, sizeof(buffer)); 
 	sprintf(buffer, "%c", value);
-	_lseek(fileID, 0, SEEK_SET);   
-	_write(fileID, buffer, sizeof(buffer));
+	lseek(fileID, 0, SEEK_SET);   
+	write(fileID, buffer, sizeof(buffer));
 }
 
 void setPinMode(int pinID, int mode)

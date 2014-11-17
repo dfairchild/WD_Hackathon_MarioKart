@@ -2,3 +2,7 @@
 *.log
 *.filters
 *.sdf
+*.lock
+source/.metadata/.mylyn/.repositories.xml.zip
+source/.metadata/.mylyn/tasks.xml.zip
+source/.metadata/.plugins/org.eclipse.cdt.core/shareddefaults.xml

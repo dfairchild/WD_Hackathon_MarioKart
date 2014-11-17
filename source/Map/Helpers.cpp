@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include "Map.h"
 
 #define PI 3.14159265
@@ -68,10 +69,10 @@ Point FindNewPosition(Point p, float distance, float deg)
 	//if ((deg >= 90) && (deg < 270))
 	//	p2.x = p.x - (distance * cos(DegreesToRadians(deg)));
 	//else
-		p2.x = p.x + (distance * cos(DegreesToRadians(deg)));
+		p2.x = p.x + (distance * std::cos(DegreesToRadians(deg)));
 
 	//if ((deg >= 0) && (deg < 180))
-		p2.y = p.y - (distance * sin(DegreesToRadians(deg)));
+		p2.y = p.y - (distance * std::sin(DegreesToRadians(deg)));
 	//else
 	//	p2.y = p.y + (distance * sin(DegreesToRadians(deg)));
 

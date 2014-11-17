@@ -28,7 +28,7 @@ public:
 	char type;
 	char defaultType;
 
-	Tile() {};
+	Tile() { this->defaultType = this->type = 'D';};
 	Tile(char defaultType) { this->defaultType = this->type = defaultType; };
 
 	void ResetToDefault(){ type = defaultType; };
@@ -56,7 +56,7 @@ public:
 	Map(int MapNumber, int NumCars, int scalar);
 
 	Point UpdateLocation(Point p, float Distance, float DegOffNorth);
-	double Map::GetDistanceBetweenCars(Point car1, Point car2);
+	double GetDistanceBetweenCars(Point car1, Point car2);
 
 	TileInfo* HitTiles(Point start, Point end, int &numTiles);
 
@@ -65,7 +65,7 @@ public:
 	void SaveMap(int mapNumber);
 
 	void DrawMap(Point p, float Distance, float DegOffNorth);
-	void Map::PrintMap();
+	void PrintMap();
 
 	std::vector< std::vector<Tile> >  tiles;
 private:

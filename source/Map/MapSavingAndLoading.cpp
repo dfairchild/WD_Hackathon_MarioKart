@@ -20,7 +20,11 @@ void Map::LoadMap( int mapNumber, int scale ){
 	std::string mapBaseFilename = "map";
 	std::string mapFilename;
 	char returnVal;
+#if _MSC_VER
 	_snprintf(&returnVal, sizeof(returnVal), "%d", mapNumber);
+#else
+	snprintf(&returnVal, sizeof(returnVal), "%d", mapNumber);
+#endif
 
 	int columnIndex;
 		
