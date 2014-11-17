@@ -1,13 +1,12 @@
+struct CarMetrics
+{
+	float currentDirection;
+	float distanceMoved;
+
+};
+
 class Car
 {
-
-	struct CarMetrics
-	{
-		float currentDirection;
-		float distanceMoved; 
-
-	};
-	
 	public:
 		Car();
 
@@ -18,8 +17,8 @@ class Car
 		void onActivateMushroom();
 		
 	private:
-		Void* readFromCompass();
-		Void* readCurrentLinearMovement();
+		void* readFromCompass();
+		void* readCurrentLinearMovement();
 
 };
 

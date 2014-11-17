@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <cmath>
+#include <iostream>
 #include <utility>
 
 Map::Map(int MapNumber, int NumCars)
@@ -150,5 +151,18 @@ void Map::DrawPathLine(Point p, float DegOffNorth)
 		tiles[x - 1][y] = Tile('.');
 		tiles[x][y + 1] = Tile('.');
 		tiles[x][y - 1] = Tile('.');
+	}
+}
+
+void Map::PrintMap()
+{
+	std::cout << "Printing map" << std::endl;
+	for (int y = 0; y < MAX_TILE_HEIGHT; y++)
+	{
+		for (int x = 0; x < MAX_TILE_WIDTH; x++)
+		{
+			std::cout << tiles[x][y].type;
+		}
+		std::cout << std::endl;
 	}
 }

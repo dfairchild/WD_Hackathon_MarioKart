@@ -65,6 +65,7 @@ public:
 	void SaveMap(int mapNumber);
 
 	void DrawMap(Point p, float Distance, float DegOffNorth);
+	void Map::PrintMap();
 
 	std::vector< std::vector<Tile> >  tiles;
 private:

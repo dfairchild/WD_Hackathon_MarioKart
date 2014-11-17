@@ -95,4 +95,6 @@ float ConvertFromNorth(float deg)
 		return 180 + (270 - deg);
 	if (deg < 360 && deg >= 270)
 		return 90 + (360 - deg);
+	else
+		return -1;
 }
