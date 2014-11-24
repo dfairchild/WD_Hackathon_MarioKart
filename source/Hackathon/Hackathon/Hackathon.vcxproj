@@ -80,9 +80,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\Car\Car.cpp" />
     <ClCompile Include="..\..\Main\Main.cpp" />
+    <ClCompile Include="..\..\Main\ThreadHandlers.cpp" />
     <ClCompile Include="..\..\Map\Helpers.cpp" />
     <ClCompile Include="..\..\Map\Map.cpp" />
     <ClCompile Include="..\..\Map\MapSavingAndLoading.cpp" />
+    <ClCompile Include="..\..\Networking\sock.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Car\Car.h" />

@@ -3,8 +3,11 @@
 #define MAX_TILE_HEIGHT 1000
 #define MAX_POTENTIAL_TILES 100
 #define TRACK_WIDTH_IN_TILES 10
+#define SHIFT_IN_TILES 10
 
 #include<vector>
+
+enum ShiftDir { UP, DOWN, LEFT, RIGHT };
 
 struct Point
 {
@@ -28,7 +31,7 @@ public:
 	char type;
 	char defaultType;
 
-	Tile() { this->defaultType = this->type = 'D';};
+	Tile() {};
 	Tile(char defaultType) { this->defaultType = this->type = defaultType; };
 
 	void ResetToDefault(){ type = defaultType; };
@@ -64,13 +67,19 @@ public:
 	void LoadMap(int mapNumber, int scale);
 	void SaveMap(int mapNumber);
 
-	void DrawMap(Point p, float Distance, float DegOffNorth);
+	Point DrawMap(Point p, float Distance, float DegOffNorth);
 	void PrintMap();
 
 	std::vector< std::vector<Tile> >  tiles;
 private:
+	bool ShiftMap(ShiftDir direction);
 	void DrawPathLine(Point p, float DegOffNorth);
+	void ResetBoundaries();
 	int scalar;
+	int LeftMost;
+	int RightMost;
+	int BottomMost;
+	int TopMost;
 	
 };
 

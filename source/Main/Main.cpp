@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <fstream>
+#include <thread>
 #include "..\..\source\Map\Map.h"
 #include "..\..\source\Car\Car.h"
+#include "..\..\source\Networking\sock.h"
 
 #ifdef _MSC_VER
 #include <io.h>
@@ -56,6 +58,15 @@ void writeFile(int fileID, int value)
 void setPinMode(int pinID, int mode)
 {
   writeFile(pinID, mode);
+}
+
+void SetUpThreads()
+{
+	std::thread t1(ListenerThread);
+	t1.detach();
+
+	std::thread t2(SenderThread);
+	t2.detach();
 }
 
 int main(void) 

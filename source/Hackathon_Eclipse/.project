@@ -60,5 +60,20 @@
 			<type>1</type>
 			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Map/MapSavingAndLoading.cpp</location>
 		</link>
+		<link>
+			<name>ThreadHandlers.cpp</name>
+			<type>1</type>
+			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Main/ThreadHandlers.cpp</location>
+		</link>
+		<link>
+			<name>sock.cpp</name>
+			<type>1</type>
+			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Networking/sock.cpp</location>
+		</link>
+		<link>
+			<name>sock.h</name>
+			<type>1</type>
+			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Networking/sock.h</location>
+		</link>
 	</linkedResources>
 </projectDescription>
