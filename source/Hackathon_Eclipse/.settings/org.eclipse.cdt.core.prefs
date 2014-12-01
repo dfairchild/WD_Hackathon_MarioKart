@@ -15,7 +15,7 @@ environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/CWD/
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/CWD/value=${ProjDirPath}\\Debug
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PATH/delimiter=;
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PATH/operation=replace
-environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PATH/value=${ProjDirPath}\\..\\..\\cross-toolchain\\bin;${JAVA_HOME}/bin/server;${JAVA_HOME}/bin;${JAVA_HOME}/lib/amd64;${eclipse_home}
+environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PATH/value=${ProjDirPath}\\..\\..\\cross-toolchain\\msys\\1.0\\bin;${ProjDirPath}\\..\\..\\cross-toolchain\\bin;${JAVA_HOME}/bin/server;${JAVA_HOME}/bin;${JAVA_HOME}/lib/amd64;${eclipse_home}
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PWD/delimiter=;
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PWD/operation=replace
 environment/project/cdt.managedbuild.config.gnu.cross.exe.release.177301391/PWD/value=${ProjDirPath}\\Debug
