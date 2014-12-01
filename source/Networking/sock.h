@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <cstring>
 #include <unistd.h>
 #include <stack>
 

@@ -6,6 +6,11 @@
 Map::Map(int MapNumber, int NumCars)
 {
 	this->scalar = 1;
+	this->LeftMost = MAX_TILE_WIDTH;
+	this->RightMost = 0;
+	this->TopMost = MAX_TILE_HEIGHT;
+	this->BottomMost = 0;
+
 	Map(MapNumber, NumCars, 1);
 }
 
@@ -209,9 +214,6 @@ void Map::DrawPathLine(Point p, float DegOffNorth)
 
 bool Map::ShiftMap(ShiftDir direction)
 {
-	bool ShiftMade;
-	int SpacesToMove;
-
 	if (direction == RIGHT)
 	{
 		// Check that there's space

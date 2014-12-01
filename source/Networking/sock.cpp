@@ -44,9 +44,14 @@ void ConnectToSocket(SocketItem* sockItem, char *ServerName)
 	
 	server=gethostbyname(ServerName);
 	
-	bzero((char *) &serv_addr, sizeof(serv_addr));
+	// Use ISO-standard memset instead of non-standard bzero
+	std::memset((char *) &serv_addr, 0, sizeof(serv_addr));
+	//bzero((char *) &serv_addr, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
-	bcopy((char *)server->h_addr,(char *)&serv_addr.sin_addr.s_addr,server->h_length);
+
+	//Use ISO-standard memcpy instead of non-standard bcopy
+	memcpy((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
+	//bcopy((char *)server->h_addr,(char *)&serv_addr.sin_addr.s_addr,server->h_length);
 	serv_addr.sin_port = htons(sockItem->port);
 	status=connect(sockItem->ActiveSocketFD,(struct sockaddr *) &serv_addr,sizeof(serv_addr));
 	
@@ -68,7 +73,8 @@ int GetMSG(SocketItem* sockItem)
 {
 	int msgSize;
 	
-	bzero(sockItem->buffer,MAXMSG);
+	memset(sockItem->buffer, 0, MAXMSG);
+	//bzero(sockItem->buffer,MAXMSG);
 	msgSize=recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
 	
 	return msgSize;
