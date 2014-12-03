@@ -2,6 +2,9 @@
 
 struct sockaddr_in serv_addr, cli_addr, sender_addr;
 
+std::stack<std::string> SendMessages;
+std::stack<std::string> RecvMessages;
+
 void CreateSocket(SocketItem* sockItem)
 {
 	int status;
@@ -20,7 +23,7 @@ void CreateSocket(SocketItem* sockItem)
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	serv_addr.sin_port = htons(sockItem->port);
-	 
+
 	status=bind(sockItem->ListenSockFD, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 	if(status==-1)
 	{
@@ -35,7 +38,7 @@ void AcceptSocket(SocketItem* sockItem)
 	sockItem->ActiveSocketFD = accept(sockItem->ListenSockFD,(struct sockaddr *)&cli_addr,(socklen_t*)(sizeof(cli_addr)));
 }
 
-void ConnectToSocket(SocketItem* sockItem, char *ServerName)
+void ConnectToSocket(SocketItem* sockItem, const char *ServerName)
 {
 	struct hostent *server;
 	int status;
@@ -46,12 +49,10 @@ void ConnectToSocket(SocketItem* sockItem, char *ServerName)
 	
 	// Use ISO-standard memset instead of non-standard bzero
 	std::memset((char *) &serv_addr, 0, sizeof(serv_addr));
-	//bzero((char *) &serv_addr, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 
 	//Use ISO-standard memcpy instead of non-standard bcopy
 	memcpy((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
-	//bcopy((char *)server->h_addr,(char *)&serv_addr.sin_addr.s_addr,server->h_length);
 	serv_addr.sin_port = htons(sockItem->port);
 	status=connect(sockItem->ActiveSocketFD,(struct sockaddr *) &serv_addr,sizeof(serv_addr));
 	
@@ -74,16 +75,20 @@ int GetMSG(SocketItem* sockItem)
 	int msgSize;
 	
 	memset(sockItem->buffer, 0, MAXMSG);
-	//bzero(sockItem->buffer,MAXMSG);
 	msgSize=recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
 	
+	RecvMessages.push(sockItem->buffer);
 	return msgSize;
 }
 
-int SendMSG(SocketItem* sockItem, char *msg,int len)
+int SendMSG(SocketItem* sockItem)
 {
 	int status;
 
+	//Yes, I used a const-cast....shut up
+	char *msg = const_cast<char*>(SendMessages.top().c_str());
+	int len = SendMessages.top().size();
+	SendMessages.pop();
 	status=send(sockItem->ActiveSocketFD,msg,len,0);
 	return status;
 }

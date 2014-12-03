@@ -9,10 +9,10 @@
 #define LISTEN_PORT 	5000
 #define SENDER_PORT 	5001
 
-void ListenerThread()
+void ListenerThread(int port)
 {
 	SocketItem sock;
-	sock.port = LISTEN_PORT;
+	sock.port = port;
 
 	CreateSocket(&sock);
 	AcceptSocket(&sock);
@@ -20,13 +20,13 @@ void ListenerThread()
 	CloseSockets(&sock);
 }
 
-void SenderThread()
+void SenderThread(int port, const char *ServerName)
 {
 	SocketItem sock;
-	sock.port = SENDER_PORT;
+	sock.port = port;
 
-	ConnectToSocket(&sock, "192.168.1.6");
-	SendMSG(&sock, "Test", sizeof("Test"));
+	ConnectToSocket(&sock, ServerName);
+	SendMSG(&sock);
 	CloseSockets(&sock);
 }
 

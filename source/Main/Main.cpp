@@ -62,16 +62,15 @@ void setPinMode(int pinID, int mode)
 
 void SetUpThreads()
 {
-	std::thread t1(ListenerThread);
+	std::thread t1(ListenerThread, 5000);
 	t1.detach();
 
-	std::thread t2(SenderThread);
+	std::thread t2(SenderThread, 5001, "192.168.1.6");
 	t2.detach();
 }
 
 int main(void) 
 {
-  printf("Hello, world!\n"); 
 
 // Skip pin inialization on Visual Studio to allow for compliation tests
 #if _MSC_VER
@@ -80,9 +79,13 @@ int main(void)
   initializePins();
 #endif
 
+  SetUpThreads();
+
   Map map(0, 0, 1);
 
   map.LoadMap(1, 1);
+
+  SendMessages.push("Test Message");
 
   return 0;
 }

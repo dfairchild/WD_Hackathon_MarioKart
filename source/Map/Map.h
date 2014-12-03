@@ -5,7 +5,15 @@
 #define TRACK_WIDTH_IN_TILES 10
 #define SHIFT_IN_TILES 10
 
-#include<vector>
+#include <vector>
+
+// Tile types and their character values
+const char DIRT   = 'D';
+const char ROAD   = '.';
+const char BANANA = 'B';
+const char WALL   = '|';
+const char START1 = '1';
+const char START2 = '2';
 
 enum ShiftDir { UP, DOWN, LEFT, RIGHT };
 
@@ -31,7 +39,7 @@ public:
 	char type;
 	char defaultType;
 
-	Tile() {};
+	Tile() {this->defaultType = this->type = DIRT;};
 	Tile(char defaultType) { this->defaultType = this->type = defaultType; };
 
 	void ResetToDefault(){ type = defaultType; };
@@ -90,9 +98,3 @@ bool DoIntersect(Point p1, Point p2, Point q1, Point q2);
 Point FindNewPosition(Point p1, float distance, float deg);
 double DegreesToRadians(float deg);
 float ConvertFromNorth(float deg);
-
-// Tile types and their character values 
-const char DIRT   = 'D';
-const char ROAD   = '.';
-const char BANANA = 'B'; 
-const char WALL   = '|'; 
