@@ -17,19 +17,20 @@ struct SocketItem
 	int port_trans;
 	int port_rec;
 	char buffer[MAXMSG];
-	int ListenSockFD;
 	int ActiveSocketFD;
 };
 
 extern std::stack<std::string> SendMessages;
 extern std::stack<std::string> RecvMessages;
 
+void BindSocket(SocketItem* sockItem);
 void CreateSocket(SocketItem* sockItem);
 void ConnectToSocket(SocketItem* sockItem, const char *ServerName);
 void CloseSockets(SocketItem* sockItem);
 int GetMSG(SocketItem* sockItem);
+int GetMSGAndConnect(SocketItem* sockItem);
 int SendMSG(SocketItem* sockItem);
 
 void ListenerThread(int port);
-void SenderThread(int port, const char *ServerName);
+void SenderThread(int RecPort, int TransPort, const char *ServerName);
 
