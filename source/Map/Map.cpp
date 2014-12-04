@@ -84,7 +84,7 @@ TileInfo* Map::HitTiles(Point start, Point end, int &numTiles)
 		{
 			if (this->tiles[y][x] != HitTiles[numTiles].tile)
 			{
-				TileInfo t = { this->tiles[y][x], { y, x } };
+				TileInfo t = { this->GetTile(y, x), {y, x} };
 				HitTiles[numTiles++] = t;
 			}
 		}
@@ -92,7 +92,7 @@ TileInfo* Map::HitTiles(Point start, Point end, int &numTiles)
 		{
 			if (this->tiles[x][y] != HitTiles[numTiles].tile)
 			{
-				TileInfo t = { this->tiles[x][y], { x, y } };
+				TileInfo t = { this->GetTile(x, y), {x, y} };
 				HitTiles[numTiles++] = t;
 			}
 		}
@@ -120,14 +120,15 @@ Point Map::DrawMap(Point p, float Distance, float DegOffNorth)
 	{
 		int x = TileLine[i].p.x;
 		int y = TileLine[i].p.y;
-		tiles[x][y] = Tile('\'');
+		this->SetTile(x, y, Tile(ROAD));
+	//	tiles[x][y] = Tile('\'');
 		Point* TempPoint = new Point{ TileLine[i].p.x, TileLine[i].p.y };
 		DrawPathLine(*TempPoint, DegOffNorth);
 		delete TempPoint;
 	}
 
-	tiles[p.x][p.y] = Tile('!');
-	tiles[p2.x][p2.y] = Tile('!');
+//	tiles[p.x][p.y] = Tile('!');
+//	tiles[p2.x][p2.y] = Tile('!');
 
 	if (LeftMost < SHIFT_IN_TILES)
 	{
@@ -169,11 +170,11 @@ void Map::DrawPathLine(Point p, float DegOffNorth)
 	{
 		int x = line1[i].p.x;
 		int y = line1[i].p.y;
-		tiles[x][y] = Tile('.');
-		tiles[x+1][y] = Tile('.');
-		tiles[x-1][y] = Tile('.');
-		tiles[x][y+1] = Tile('.');
-		tiles[x][y-1] = Tile('.');
+		this->SetTile(x, y, Tile(ROAD));
+		this->SetTile(x + 1, y, Tile(ROAD));
+		this->SetTile(x - 1, y, Tile(ROAD));
+		this->SetTile(x, y + 1, Tile(ROAD));
+		this->SetTile(x, y - 1, Tile(ROAD));
 
 		if ((y + 1) > BottomMost)
 			BottomMost = y + 1;
@@ -192,11 +193,11 @@ void Map::DrawPathLine(Point p, float DegOffNorth)
 	{
 		int x = line2[i].p.x;
 		int y = line2[i].p.y;
-		tiles[x][y] = Tile('.');
-		tiles[x + 1][y] = Tile('.');
-		tiles[x - 1][y] = Tile('.');
-		tiles[x][y + 1] = Tile('.');
-		tiles[x][y - 1] = Tile('.');
+		this->SetTile(x, y, Tile(ROAD));
+		this->SetTile(x + 1, y, Tile(ROAD));
+		this->SetTile(x - 1, y, Tile(ROAD));
+		this->SetTile(x, y + 1, Tile(ROAD));
+		this->SetTile(x, y - 1, Tile(ROAD));
 
 		if ((y + 1) > BottomMost)
 			BottomMost = y + 1;
@@ -221,7 +222,7 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int x = MAX_TILE_WIDTH- 1; x >= (MAX_TILE_WIDTH - (2 * SHIFT_IN_TILES)); --x)
 			{
-				if (tiles[x][y].type == DIRT)
+				if(GetTile(x, y).type == DIRT)
 					continue;
 
 				return false;
@@ -232,13 +233,13 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int x = (MAX_TILE_WIDTH - SHIFT_IN_TILES - 1); x >= 0; --x)
 			{
-				tiles[x + SHIFT_IN_TILES][y] = tiles[x][y];
+				this->SetTile(x + SHIFT_IN_TILES, y, tiles[x][y]);
 			}
 
 			// Fill the left gap
 			for (int i = 0; i < SHIFT_IN_TILES; i++)
 			{
-				tiles[i][y] = Tile(DIRT);
+				this->SetTile(i, y, Tile(DIRT));
 			}
 		}
 	}
@@ -249,7 +250,7 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int x = 0; x < 2 * SHIFT_IN_TILES; x++)
 			{
-				if (tiles[x][y].type == DIRT)
+				if(GetTile(x, y).type == DIRT)
 					continue;
 
 				return false;
@@ -260,13 +261,13 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int x = SHIFT_IN_TILES; x < MAX_TILE_WIDTH; x++)
 			{
-				tiles[x - SHIFT_IN_TILES][y] = tiles[x][y];
+				this->SetTile(x - SHIFT_IN_TILES, y, tiles[x][y]);
 			}
 
 			// Fill the right gap
 			for (int i = MAX_TILE_WIDTH - 1; i >= (MAX_TILE_WIDTH - SHIFT_IN_TILES); --i)
 			{
-				tiles[i][y] = Tile(DIRT);
+				this->SetTile(i, y, Tile(DIRT));
 			}
 		}
 	}
@@ -277,7 +278,7 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int y = MAX_TILE_WIDTH - 1; y >= (MAX_TILE_HEIGHT - (2 * SHIFT_IN_TILES)); --y)
 			{
-				if (tiles[x][y].type == DIRT)
+				if(GetTile(x, y).type == DIRT)
 					continue;
 
 				return false;
@@ -288,13 +289,13 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int y = (MAX_TILE_HEIGHT - SHIFT_IN_TILES - 1); y >= 0; --y)
 			{
-				tiles[x][y + SHIFT_IN_TILES] = tiles[x][y];
+				this->SetTile(x, y + SHIFT_IN_TILES, tiles[x][y]);
 			}
 
 			// Fill the left gap
 			for (int i = 0; i < SHIFT_IN_TILES; i++)
 			{
-				tiles[x][i] = Tile(DIRT);
+				this->SetTile(x, i, Tile(DIRT));
 			}
 		}
 	}
@@ -305,7 +306,7 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int y = 0; y < 2 * SHIFT_IN_TILES; y++)
 			{
-				if (tiles[x][y].type == DIRT)
+				if(GetTile(x, y).type == DIRT)
 					continue;
 
 				return false;
@@ -316,18 +317,38 @@ bool Map::ShiftMap(ShiftDir direction)
 		{
 			for (int y = SHIFT_IN_TILES; y < MAX_TILE_HEIGHT; y++)
 			{
-				tiles[x][y - SHIFT_IN_TILES] = tiles[x][y];
+				this->SetTile(x, y - SHIFT_IN_TILES, tiles[x][y]);
 			}
 
 			// Fill the right gap
 			for (int i = MAX_TILE_HEIGHT - 1; i >= (MAX_TILE_HEIGHT - SHIFT_IN_TILES); --i)
 			{
-				tiles[x][i] = Tile(DIRT);
+				this->SetTile(x, i, Tile(DIRT));
 			}
 		}
 	}
 
 	return true;
+}
+
+Tile Map::GetTile(int x, int y)
+{
+	if ( x > MAX_TILE_WIDTH || x < 0 )
+		return NULL;
+	if ( y > MAX_TILE_HEIGHT || y < 0 )
+		return NULL;
+
+	return tiles[x][y];
+}
+
+void Map::SetTile(int x, int y, const Tile tile)
+{
+	if ( x > MAX_TILE_WIDTH || x < 0 )
+		return;
+	if ( y > MAX_TILE_HEIGHT || y < 0 )
+		return;
+
+	tiles[x][y] = tile;
 }
 
 void Map::ResetBoundaries()

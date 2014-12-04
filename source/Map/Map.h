@@ -39,7 +39,7 @@ public:
 	char type;
 	char defaultType;
 
-	Tile() {this->defaultType = this->type = DIRT;};
+	Tile() {};
 	Tile(char defaultType) { this->defaultType = this->type = defaultType; };
 
 	void ResetToDefault(){ type = defaultType; };
@@ -77,6 +77,9 @@ public:
 
 	Point DrawMap(Point p, float Distance, float DegOffNorth);
 	void PrintMap();
+
+	Tile GetTile(int x, int y);
+	void SetTile(int x, int y, const Tile tile);
 
 	std::vector< std::vector<Tile> >  tiles;
 private:
