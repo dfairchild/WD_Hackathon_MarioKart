@@ -21,7 +21,7 @@ void ListenerThread(int port)
 	do
 	{
 		GetMSG(&sock);
-	}while(TRUE);
+	}while(true);
 	
 	CloseSockets(&sock);
 }
