@@ -1,6 +1,6 @@
 #include "..\..\source\Networking\sock.h"
 
-struct sockaddr_in serv_addr, cli_addr, sender_addr;
+struct sockaddr_in serv_addr, cli_addr;
 
 std::stack<std::string> SendMessages;
 std::stack<std::string> RecvMessages;
