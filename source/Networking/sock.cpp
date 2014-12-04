@@ -28,9 +28,6 @@ void BindSocket(SocketItem* sockItem)
 
 void CreateSocket(SocketItem* sockItem)
 {
-	int status;
-	int recvlen;
-
 	sockItem->ActiveSocketFD=socket(PF_INET,SOCK_DGRAM,IPPROTO_UDP);
 	if(sockItem->ActiveSocketFD==-1)
 	{
@@ -39,7 +36,6 @@ void CreateSocket(SocketItem* sockItem)
 	}
 
 	BindSocket(sockItem);
-
 }
 
 void ConnectToSocket(SocketItem* sockItem, const char *ServerName)

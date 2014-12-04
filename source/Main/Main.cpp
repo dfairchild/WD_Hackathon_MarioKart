@@ -65,7 +65,7 @@ void SetUpThreads()
 	std::thread t1(ListenerThread, 5000);
 	t1.detach();
 
-	std::thread t2(SenderThread, 5001, "192.168.1.6");
+	std::thread t2(SenderThread, 5001, 5002, "192.168.1.6");
 	t2.detach();
 }
 
