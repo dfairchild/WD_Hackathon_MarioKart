@@ -25,6 +25,9 @@
 
 void setPinMode(int pinID, int mode);
 void writeFile(int fileID, int value);
+void HandleTile(TileInfo tile);
+void GetPositionInfo(float &Distance, float &DegreesOffNorth);
+void ProcessIncomingMessages();
 
 //setups up pins 2 and 4 as input pins to read compass/speed
 void initializePins(){
@@ -69,8 +72,29 @@ void SetUpThreads()
 	t2.detach();
 }
 
+void GetPositionInfo(float &Distance, float &DegreesOffNorth)
+{
+
+}
+
+void HandleTile(TileInfo tile)
+{
+
+}
+
+void ProcessIncomingMessages()
+{
+	while(!RecvMessages.empty())
+	{
+		std::string message = RecvMessages.top();
+		RecvMessages.pop();
+	}
+}
+
 int main(void) 
 {
+	float Distance, DegreesOffNorth;
+	Point p, p2;
 
 // Skip pin inialization on Visual Studio to allow for compliation tests
 #if _MSC_VER
@@ -86,6 +110,23 @@ int main(void)
   map.LoadMap(1, 1);
 
   SendMessages.push("Test Message");
+
+  while(true)
+  {
+	  int NumTiles = 0;
+
+	  ProcessIncomingMessages();
+
+	  GetPositionInfo(Distance, DegreesOffNorth);
+	  p2 = map.UpdateLocation(p, Distance, DegreesOffNorth);
+	  TileInfo *HitTiles = map.HitTiles(p, p2, NumTiles);
+
+	  for (int i = 0; i < NumTiles; i++)
+	  {
+		  std::thread t(HandleTile, HitTiles[i]);
+		  t.detach();
+	  }
+  }
 
   return 0;
 }
