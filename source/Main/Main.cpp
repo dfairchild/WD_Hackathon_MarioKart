@@ -126,6 +126,8 @@ int main(void)
 		  std::thread t(HandleTile, HitTiles[i]);
 		  t.detach();
 	  }
+
+	  p = p2;
   }
 
   return 0;
