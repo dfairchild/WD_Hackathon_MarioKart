@@ -12,18 +12,25 @@
 void ListenerThread(int port)
 {
 	SocketItem sock;
-	sock.port = port;
+	sock.port_rec = port;
 
+	
 	CreateSocket(&sock);
-	AcceptSocket(&sock);
-	GetMSG(&sock);
+	GetMSGAndConnect(&sock);
+	
+	do
+	{
+		GetMSG(&sock);
+	}while(TRUE);
+	
 	CloseSockets(&sock);
 }
 
-void SenderThread(int port, const char *ServerName)
+void SenderThread(int RecPort, int TransPort, const char *ServerName)
 {
 	SocketItem sock;
-	sock.port = port;
+	sock.port_rec = RecPort;
+	sock.port_trans = TransPort;
 
 	ConnectToSocket(&sock, ServerName);
 	SendMSG(&sock);
