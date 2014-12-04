@@ -14,7 +14,8 @@
 
 struct SocketItem
 {
-	int port;
+	int port_trans;
+	int port_rec;
 	char buffer[MAXMSG];
 	int ListenSockFD;
 	int ActiveSocketFD;
@@ -24,7 +25,6 @@ extern std::stack<std::string> SendMessages;
 extern std::stack<std::string> RecvMessages;
 
 void CreateSocket(SocketItem* sockItem);
-void AcceptSocket(SocketItem* sockItem);
 void ConnectToSocket(SocketItem* sockItem, const char *ServerName);
 void CloseSockets(SocketItem* sockItem);
 int GetMSG(SocketItem* sockItem);
