@@ -39,6 +39,9 @@ std::string MESSAGE_APP_INTERACTION2 = "TODO: Define";
 std:string MESSAGE_SHELL_STARTED = "SHELL";
 std:string MESSAGE_SONAR_GATE = "SONAR";
 
+const double START_POINT_X = 0.0; // TODO: Decide this based on where the start is on the actual map 
+const double START_POINT_Y = 0.0; 
+
 //setups up pins 2 and 4 as input pins to read compass/speed
 void initializePins(){
 
@@ -84,11 +87,9 @@ void SetUpThreads()
 
 void GetPositionInfo(float &Distance, float &DegreesOffNorth)
 {
-
+	// Daryl, please fill this function in
 }
 
-// These functions should be threads 
-// OR they will just affect some GPIO so it doesn't matter that they aren't threads 
 void HitDirt()
 {
 	// Call that handles affecting the car when it hits dirt 
@@ -142,7 +143,7 @@ void HandleTile(TileInfo tile)
 	}
 }
 
-void ProcessIncomingMessages()
+void ProcessIncomingMessages(Point &p)
 {
 	while(!RecvMessages.empty())
 	{
@@ -164,6 +165,7 @@ void ProcessIncomingMessages()
 		else if( message.compare( MESSAGE_SONAR_GATE ) )
 		{
 			// Handle passing through sonar gate 
+			//p.x = START_POINT_X; //TODO: Lets test before we start putting in crazy shit like this 
 		}
 		// Throw away unrecognized messages 
 	}
@@ -189,11 +191,16 @@ int main(void)
 
   SendMessages.push("Test Message");
 
+  // Assume a start point of 0,0 
+  p.x = START_POINT_X;
+  p.y = START_POINT_Y;
+  
   while(true)
   {
 	  int NumTiles = 0;
 
-	  ProcessIncomingMessages();
+	  // Pass the point we are at in case we should correct it because we hit a sonar gate 
+	  ProcessIncomingMessages(p);
 
 	  GetPositionInfo(Distance, DegreesOffNorth);
 	  p2 = map.UpdateLocation(p, Distance, DegreesOffNorth);
