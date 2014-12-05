@@ -1,3 +1,8 @@
-This will be the file with instructions on how to setup the cross-compiler.
+Since Tim whined about it, here's the steps to Cross-Compile on Windows.
 
-P.S.  IT WORKS!!!!!!!
+- Download "Eclipse for C/C++ Developers" here: http://www.eclipse.org/downloads/
+- Set your workspace to <GitDirectory>/WD_Hackathon_MarioKart/source/
+- Go to File->Import...->General->Existing Projects into Workspace->Next
+- Set the root directory to Hackathon_Eclipse and make sure the project shows up in the box below where you set the directory.
+- Click Finish.
+- Compile that bitch.
