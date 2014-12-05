@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <fstream>
+#include <sstream> 
 #include <thread>
 #include "..\..\source\Map\Map.h"
 #include "..\..\source\Car\Car.h"
@@ -198,6 +199,7 @@ int main(void)
   while(true)
   {
 	  int NumTiles = 0;
+	  std:ostringstream message;
 
 	  // Pass the point we are at in case we should correct it because we hit a sonar gate 
 	  ProcessIncomingMessages(p);
@@ -213,6 +215,11 @@ int main(void)
 	  }
 
 	  p = p2;
+	  
+	  // Broadcast the message to the App so Tim can update our location 
+	  message << "x:" << p.x << " y:" << p.y;
+	  SendMessages.push(message.str());
+	 
   }
 
   return 0;
