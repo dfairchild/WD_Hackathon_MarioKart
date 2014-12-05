@@ -37,8 +37,8 @@ void HitBanana();
 
 std::string MESSAGE_APP_INTERACTION1 = "TODO: Define";
 std::string MESSAGE_APP_INTERACTION2 = "TODO: Define";
-std:string MESSAGE_SHELL_STARTED = "SHELL";
-std:string MESSAGE_SONAR_GATE = "SONAR";
+std::string MESSAGE_SHELL_STARTED = "SHELL";
+std::string MESSAGE_SONAR_GATE = "SONAR";
 
 const double START_POINT_X = 0.0; // TODO: Decide this based on where the start is on the actual map 
 const double START_POINT_Y = 0.0; 
@@ -199,7 +199,7 @@ int main(void)
   while(true)
   {
 	  int NumTiles = 0;
-	  std:ostringstream message;
+	  std::stringstream message;
 
 	  // Pass the point we are at in case we should correct it because we hit a sonar gate 
 	  ProcessIncomingMessages(p);
