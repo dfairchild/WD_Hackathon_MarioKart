@@ -28,52 +28,52 @@
 		<link>
 			<name>Car.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Car/Car.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Car/Car.cpp</locationURI>
 		</link>
 		<link>
 			<name>Car.h</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Car/Car.h</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Car/Car.h</locationURI>
 		</link>
 		<link>
 			<name>Helpers.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Map/Helpers.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Map/Helpers.cpp</locationURI>
 		</link>
 		<link>
 			<name>Main.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Main/Main.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Main/Main.cpp</locationURI>
 		</link>
 		<link>
 			<name>Map.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Map/Map.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Map/Map.cpp</locationURI>
 		</link>
 		<link>
 			<name>Map.h</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Map/Map.h</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Map/Map.h</locationURI>
 		</link>
 		<link>
 			<name>MapSavingAndLoading.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Map/MapSavingAndLoading.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Map/MapSavingAndLoading.cpp</locationURI>
 		</link>
 		<link>
 			<name>ThreadHandlers.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Main/ThreadHandlers.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Main/ThreadHandlers.cpp</locationURI>
 		</link>
 		<link>
 			<name>sock.cpp</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Networking/sock.cpp</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Networking/sock.cpp</locationURI>
 		</link>
 		<link>
 			<name>sock.h</name>
 			<type>1</type>
-			<location>C:/Users/Nick/Documents/Git/WD_Hackathon_MarioKart/source/Networking/sock.h</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Networking/sock.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
