@@ -29,6 +29,16 @@ void HandleTile(TileInfo tile);
 void GetPositionInfo(float &Distance, float &DegreesOffNorth);
 void ProcessIncomingMessages();
 
+void HitWall();
+void HitDirt();
+void HitRoad();
+void HitBanana(); 
+
+std::string MESSAGE_APP_INTERACTION1 = "TODO: Define";
+std::string MESSAGE_APP_INTERACTION2 = "TODO: Define";
+std:string MESSAGE_SHELL_STARTED = "SHELL";
+std:string MESSAGE_SONAR_GATE = "SONAR";
+
 //setups up pins 2 and 4 as input pins to read compass/speed
 void initializePins(){
 
@@ -77,9 +87,59 @@ void GetPositionInfo(float &Distance, float &DegreesOffNorth)
 
 }
 
+// These functions should be threads 
+// OR they will just affect some GPIO so it doesn't matter that they aren't threads 
+void HitDirt()
+{
+	// Call that handles affecting the car when it hits dirt 
+}
+
+void HitWall()
+{
+	// Call that handles affecting the car when it hits the wall 
+}
+
+void HitRoad()
+{
+	// Call that handles affecting the car when it hits the road 
+}
+
+void HitBanana()
+{
+	// Call that handles affecting the car when it hits a banana 
+}
+
 void HandleTile(TileInfo tile)
 {
-
+	char tileType;
+	tileType = tile.tile.type; 
+	
+	switch( tileType )
+	{
+		case DIRT: 
+			HitDirt();
+			break;
+		case ROAD:
+			HitRoad();
+			break;
+		case BANANA:
+			HitBanana();
+			break;
+		case WALL:
+			HitWall();
+			break;
+		case START1:
+			// Push a passing finish line message
+			HitRoad();
+			break;
+		case START2:
+			// Push a passing finish line message 
+			HitRoad(); 
+			break; 
+		default:
+			HitRoad();
+			break; 
+	}
 }
 
 void ProcessIncomingMessages()
@@ -88,6 +148,24 @@ void ProcessIncomingMessages()
 	{
 		std::string message = RecvMessages.top();
 		RecvMessages.pop();
+
+		if( message.compare( MESSAGE_APP_INTERACTION1 ) ) 
+		{
+			// Handle app interaction (undefined)
+		}
+		else if( message.compare( MESSAGE_APP_INTERACTION2 ) ) 
+		{
+			// Handle app interaction (undefined) 
+		}
+		else if( message.compare( MESSAGE_SHELL_STARTED ) ) 
+		{
+			// Handle shell started (register it with map and start timer)
+		}
+		else if( message.compare( MESSAGE_SONAR_GATE ) )
+		{
+			// Handle passing through sonar gate 
+		}
+		// Throw away unrecognized messages 
 	}
 }
 
