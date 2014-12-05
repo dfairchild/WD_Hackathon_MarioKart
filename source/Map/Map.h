@@ -82,6 +82,7 @@ public:
 	void SetTile(int x, int y, const Tile tile);
 
 	std::vector< std::vector<Tile> >  tiles;
+
 private:
 	bool ShiftMap(ShiftDir direction);
 	void DrawPathLine(Point p, float DegOffNorth);

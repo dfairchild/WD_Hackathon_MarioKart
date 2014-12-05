@@ -28,7 +28,7 @@ void setPinMode(int pinID, int mode);
 void writeFile(int fileID, int value);
 void HandleTile(TileInfo tile);
 void GetPositionInfo(float &Distance, float &DegreesOffNorth);
-void ProcessIncomingMessages();
+void ProcessIncomingMessages(Point &p);
 
 void HitWall();
 void HitDirt();
