@@ -5,19 +5,28 @@ SocketItem testsocket;
 int main(void)
 {
 	printf ("\nTestsocket assign port");
-	testsocket.port_trans=12346;
-	testsocket.port_rec=12345;
+	testsocket.port_trans = 6000;
+	testsocket.port_rec = 0;
 
-	printf ("\nConnect to Socket");
-	ConnectToSocket(&testsocket,"127.0.0.1");
+	printf ("\nCreate Socket");
+	//ConnectToSocket(&testsocket,"192.168.2.100");
+	CreateSocket(&testsocket);
 
 	printf ("\nSending testing string");
-	SendMSG(&testsocket, "testing", 7);
+	SendMessages.push("Test Message");
+	SendMSG(&testsocket);
 
-	printf ("\nGetting Message");
-	GetMSG(&testsocket);
+	//printf ("\nGetting Message");
+	//GetMSG(&testsocket);
 
-	printf ("\nMessage reads: %s", testsocket.buffer);
+	//printf ("\nMessage reads: %s", testsocket.buffer);
+
+	while(true)
+	{
+		SendMessages.push("spam");
+		SendMSG(&testsocket);
+		sleep(5);
+	}
 
 	CloseSockets(&testsocket);
 

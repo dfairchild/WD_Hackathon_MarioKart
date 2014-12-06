@@ -14,8 +14,9 @@ void ListenerThread(int port)
 	SocketItem sock;
 	sock.port_rec = port;
 
-	
+	printf ("\nListerner : create socket");
 	CreateSocket(&sock);
+	printf ("\nListerner : get message and connect");
 	GetMSGAndConnect(&sock);
 	
 	do

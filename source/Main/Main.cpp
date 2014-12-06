@@ -43,6 +43,10 @@ std::string MESSAGE_SONAR_GATE = "SONAR";
 const double START_POINT_X = 0.0; // TODO: Decide this based on where the start is on the actual map 
 const double START_POINT_Y = 0.0; 
 
+const char *ServerName = "192.168.2.100";
+const int RecPort = 5001;
+const int TransPort = 6000;
+
 //setups up pins 2 and 4 as input pins to read compass/speed
 void initializePins(){
 
@@ -79,10 +83,14 @@ void setPinMode(int pinID, int mode)
 
 void SetUpThreads()
 {
+	printf ("\nListener thread");
 	std::thread t1(ListenerThread, 5000);
+	printf ("\ndetach");
 	t1.detach();
 
-	std::thread t2(SenderThread, 5001, 5002, "192.168.1.6");
+	printf ("\nSender thread");
+	std::thread t2(SenderThread, RecPort, TransPort, ServerName);
+	printf ("\ndetach");
 	t2.detach();
 }
 
@@ -181,10 +189,14 @@ int main(void)
 #if _MSC_VER
 
 #else
-  initializePins();
+  //initializePins();
 #endif
 
+  printf ("\nThreads");
+
   SetUpThreads();
+
+  printf ("\nMap");
 
   Map map(0, 0, 1);
 

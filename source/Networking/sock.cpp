@@ -1,4 +1,4 @@
-#include "..\..\source\Networking\sock.h"
+#include "sock.h"
 
 struct sockaddr_in serv_addr, cli_addr;
 
@@ -14,11 +14,11 @@ void BindSocket(SocketItem* sockItem)
 	setsockopt(sockItem->ActiveSocketFD, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 	
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_addr.s_addr = INADDR_ANY;
+	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = htons(sockItem->port_rec);
 	 
 	status=bind(sockItem->ActiveSocketFD, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-	if(status==-1)
+	if( status == -1 )
 	{
 		perror("bind()");
 		exit(1);
@@ -28,13 +28,14 @@ void BindSocket(SocketItem* sockItem)
 
 void CreateSocket(SocketItem* sockItem)
 {
+	printf ("\nCreate socket");
 	sockItem->ActiveSocketFD=socket(PF_INET,SOCK_DGRAM,IPPROTO_UDP);
 	if(sockItem->ActiveSocketFD==-1)
 	{
 		perror("listen socket()");
 		exit(1);
 	}
-
+	printf ("\nCall bind socket");
 	BindSocket(sockItem);
 }
 
@@ -114,7 +115,26 @@ int SendMSG(SocketItem* sockItem)
 	char *msg = const_cast<char*>(SendMessages.top().c_str());
 	int len = SendMessages.top().size();
 	SendMessages.pop();
-	status=send(sockItem->ActiveSocketFD,msg,len,0);
+
+	struct hostent *hp;     /* host information */
+	struct sockaddr_in servaddr;    /* server address */
+
+	printf ( msg );
+
+	/* fill in the server's address and data */
+	memset((char*)&servaddr, 0, sizeof(servaddr));
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons(sockItem->port_trans);
+
+	/* look up the address of the server given its name */
+	hp = gethostbyname("192.168.2.101");
+
+	/* put the host's address into the server address structure */
+	memcpy((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);
+
+	status = sendto(sockItem->ActiveSocketFD, msg, len, 0, (struct sockaddr *)&servaddr, sizeof(servaddr) );
+
+	//status=send(sockItem->ActiveSocketFD,msg,len,0);
 	return status;
 }
 	
