@@ -20,7 +20,7 @@ void BindSocket(SocketItem* sockItem)
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = htons(sockItem->port_rec);
 	 
-	status=bind(sockItem->ActiveSocketFD, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+	status = bind(sockItem->ActiveSocketFD, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 	if( status == -1 )
 	{
 		perror("bind()");
@@ -31,14 +31,13 @@ void BindSocket(SocketItem* sockItem)
 
 void CreateSocket(SocketItem* sockItem)
 {
-	printf ("\nCreate socket");
 	sockItem->ActiveSocketFD=socket(PF_INET,SOCK_DGRAM,IPPROTO_UDP);
 	if(sockItem->ActiveSocketFD==-1)
 	{
 		perror("listen socket()");
 		exit(1);
 	}
-	printf ("\nCall bind socket");
+
 	BindSocket(sockItem);
 }
 
@@ -81,7 +80,7 @@ int GetMSG(SocketItem* sockItem)
 	int msgSize;
 	
 	memset(sockItem->buffer, 0, MAXMSG);
-	msgSize=recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
+	msgSize = recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
 	
 	if (sockItem->port_rec == MAPRECVPORT)
 	{
@@ -101,7 +100,7 @@ int GetMSGAndConnect(SocketItem* sockItem)
 	struct sockaddr_in remaddr; 
 	socklen_t addrlen = sizeof(remaddr);
 
-	msgSize=recvfrom(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0,(struct sockaddr *) &remaddr, &addrlen);
+	msgSize = recvfrom(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0,(struct sockaddr *) &remaddr, &addrlen);
 	
 	if (sockItem->port_rec == MAPRECVPORT)
 	{
@@ -113,8 +112,8 @@ int GetMSGAndConnect(SocketItem* sockItem)
 	}
 
 
-	status=connect(sockItem->ActiveSocketFD,(struct sockaddr *) &remaddr,addrlen);
-	if(status==-1)
+	status = connect(sockItem->ActiveSocketFD,(struct sockaddr *) &remaddr,addrlen);
+	if(status == -1)
 	{
 		perror("connect()");
 		exit(1);
