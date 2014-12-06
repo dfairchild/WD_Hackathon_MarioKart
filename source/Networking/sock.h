@@ -12,6 +12,12 @@
 
 #define MAXMSG 4096
 
+#define MAPRECVPORT 5000
+#define MAPSENDPORT 5001
+#define APPRECVPORT 6000
+#define APPSENDPORT 6001
+
+
 struct SocketItem
 {
 	int port_trans;
@@ -20,8 +26,11 @@ struct SocketItem
 	int ActiveSocketFD;
 };
 
-extern std::stack<std::string> SendMessages;
-extern std::stack<std::string> RecvMessages;
+extern std::stack<std::string> AppSendMessages;
+extern std::stack<std::string> AppRecvMessages;
+
+extern std::stack<std::string> MapSendMessages;
+extern std::stack<std::string> MapRecvMessages;
 
 void BindSocket(SocketItem* sockItem);
 void CreateSocket(SocketItem* sockItem);
@@ -29,8 +38,10 @@ void ConnectToSocket(SocketItem* sockItem, const char *ServerName);
 void CloseSockets(SocketItem* sockItem);
 int GetMSG(SocketItem* sockItem);
 int GetMSGAndConnect(SocketItem* sockItem);
-int SendMSG(SocketItem* sockItem);
+int SendAppMSG(SocketItem* sockItem);
+int SendMapMSG(SocketItem* sockItem);
 
-void ListenerThread(int port);
-void SenderThread(int RecPort, int TransPort, const char *ServerName);
+void MapListenerThread();
+void AppSenderThread();
+void MapSenderThread(const char *ServerName);
 
