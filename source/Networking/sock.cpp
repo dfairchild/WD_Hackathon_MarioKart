@@ -2,8 +2,11 @@
 
 struct sockaddr_in serv_addr, cli_addr;
 
-std::stack<std::string> SendMessages;
-std::stack<std::string> RecvMessages;
+std::stack<std::string> AppSendMessages;
+std::stack<std::string> AppRecvMessages;
+
+std::stack<std::string> MapSendMessages;
+std::stack<std::string> MapRecvMessages;
 
 void BindSocket(SocketItem* sockItem)
 {
@@ -51,8 +54,6 @@ void ConnectToSocket(SocketItem* sockItem, const char *ServerName)
 		exit(1);
 	}
 	
-	BindSocket(sockItem);
-	
 	server=gethostbyname(ServerName);
 	
 	std::memset((char *) &cli_addr, 0, sizeof(cli_addr));
@@ -82,7 +83,14 @@ int GetMSG(SocketItem* sockItem)
 	memset(sockItem->buffer, 0, MAXMSG);
 	msgSize=recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
 	
-	RecvMessages.push(sockItem->buffer);
+	if (sockItem->port_rec == MAPRECVPORT)
+	{
+		MapRecvMessages.push(sockItem->buffer);
+	}
+	else
+	{
+		AppRecvMessages.push(sockItem->buffer);
+	}
 	return msgSize;
 }
 
@@ -95,7 +103,15 @@ int GetMSGAndConnect(SocketItem* sockItem)
 
 	msgSize=recvfrom(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0,(struct sockaddr *) &remaddr, &addrlen);
 	
-	RecvMessages.push(sockItem->buffer);
+	if (sockItem->port_rec == MAPRECVPORT)
+	{
+		MapRecvMessages.push(sockItem->buffer);
+	}
+	else
+	{
+		AppRecvMessages.push(sockItem->buffer);
+	}
+
 
 	status=connect(sockItem->ActiveSocketFD,(struct sockaddr *) &remaddr,addrlen);
 	if(status==-1)
@@ -107,14 +123,14 @@ int GetMSGAndConnect(SocketItem* sockItem)
 	return msgSize;
 }
 
-int SendMSG(SocketItem* sockItem)
+int SendAppMSG(SocketItem* sockItem)
 {
 	int status;
 
 	//Yes, I used a const-cast....shut up
-	char *msg = const_cast<char*>(SendMessages.top().c_str());
-	int len = SendMessages.top().size();
-	SendMessages.pop();
+	char *msg = const_cast<char*>(AppSendMessages.top().c_str());
+	int len = AppSendMessages.top().size();
+	AppSendMessages.pop();
 
 	struct hostent *hp;     /* host information */
 	struct sockaddr_in servaddr;    /* server address */
@@ -135,7 +151,19 @@ int SendMSG(SocketItem* sockItem)
 	status = sendto(sockItem->ActiveSocketFD, msg, len, 0, (struct sockaddr *)&servaddr, sizeof(servaddr) );
 
 	//status=send(sockItem->ActiveSocketFD,msg,len,0);
+
 	return status;
 }
 	
-	
+int SendMapMSG(SocketItem* sockItem)
+{
+	int status;
+
+	//Yes, I used a const-cast....shut up
+	char *msg = const_cast<char*>(MapSendMessages.top().c_str());
+	int len = MapSendMessages.top().size();
+	MapSendMessages.pop();
+	status=send(sockItem->ActiveSocketFD,msg,len,0);
+	return status;
+}
+

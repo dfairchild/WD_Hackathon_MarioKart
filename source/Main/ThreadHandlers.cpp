@@ -6,35 +6,70 @@
  */
 
 #include "..\..\source\Networking\sock.h"
-#define LISTEN_PORT 	5000
-#define SENDER_PORT 	5001
 
-void ListenerThread(int port)
+void MapListenerThread()
 {
 	SocketItem sock;
-	sock.port_rec = port;
+	sock.port_rec = MAPRECVPORT;
 
 	printf ("\nListerner : create socket");
 	CreateSocket(&sock);
-	printf ("\nListerner : get message and connect");
-	GetMSGAndConnect(&sock);
 	
 	do
 	{
 		GetMSG(&sock);
+
+		// Need to add Handler to send data to map
+		// not exactly sure how this would be handled
+
 	}while(true);
 	
 	CloseSockets(&sock);
 }
 
-void SenderThread(int RecPort, int TransPort, const char *ServerName)
+void AppSenderThread()
 {
 	SocketItem sock;
-	sock.port_rec = RecPort;
-	sock.port_trans = TransPort;
+	sock.port_rec = APPRECVPORT;
+
+
+	CreateSocket(&sock);
+
+	// listens for first message then connects back.
+	GetMSGAndConnect(&sock);
+
+	do
+	{
+		// if a message needs to be sent to the app
+		if( !AppSendMessages.empty() )
+		{
+			SendAppMSG(&sock);
+		}
+
+		// might need to fire off an app listener thread so that it will handle all the data in (item uses etc)
+		// or get a non-blocking get message to recieve the data
+
+	}while(true);
+
+	CloseSockets(&sock);
+}
+
+void MapSenderThread(const char *ServerName)
+{
+	SocketItem sock;
+	sock.port_trans = MAPRECVPORT;
 
 	ConnectToSocket(&sock, ServerName);
-	SendMSG(&sock);
+
+	do
+	{
+		if( !AppSendMessages.empty() )
+		{
+			SendMapMSG(&sock);
+		}
+
+	}while(true);
+
 	CloseSockets(&sock);
 }
 

@@ -83,14 +83,10 @@ void setPinMode(int pinID, int mode)
 
 void SetUpThreads()
 {
-	printf ("\nListener thread");
-	std::thread t1(ListenerThread, 5000);
-	printf ("\ndetach");
+	std::thread t1(MapListenerThread);
 	t1.detach();
 
-	printf ("\nSender thread");
-	std::thread t2(SenderThread, RecPort, TransPort, ServerName);
-	printf ("\ndetach");
+	std::thread t2(AppSenderThread);
 	t2.detach();
 }
 
@@ -154,10 +150,10 @@ void HandleTile(TileInfo tile)
 
 void ProcessIncomingMessages(Point &p)
 {
-	while(!RecvMessages.empty())
+	while(!MapRecvMessages.empty())
 	{
-		std::string message = RecvMessages.top();
-		RecvMessages.pop();
+		std::string message = MapRecvMessages.top();
+		MapRecvMessages.pop();
 
 		if( message.compare( MESSAGE_APP_INTERACTION1 ) ) 
 		{
@@ -202,7 +198,8 @@ int main(void)
 
   map.LoadMap(1, 1);
 
-  SendMessages.push("Test Message");
+  // DEBUG: not sure if this is needed but needs to be on either Map or App stack
+  // SendMessages.push("Test Message");
 
   // Assume a start point of 0,0 
   p.x = START_POINT_X;
@@ -230,7 +227,7 @@ int main(void)
 	  
 	  // Broadcast the message to the App so Tim can update our location 
 	  message << "x:" << p.x << " y:" << p.y;
-	  SendMessages.push(message.str());
+	  AppSendMessages.push(message.str());
 	 
   }
 
