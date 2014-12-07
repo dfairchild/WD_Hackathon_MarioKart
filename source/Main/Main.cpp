@@ -40,8 +40,8 @@ std::string MESSAGE_APP_INTERACTION2 = "TODO: Define";
 std::string MESSAGE_SHELL_STARTED = "SHELL";
 std::string MESSAGE_SONAR_GATE = "SONAR";
 
-const double START_POINT_X = 0.0; // TODO: Decide this based on where the start is on the actual map 
-const double START_POINT_Y = 0.0; 
+const double START_POINT_X = 50.0; // TODO: Decide this based on where the start is on the actual map
+const double START_POINT_Y = 50.0;
 
 const char *ServerName = "192.168.2.100";
 const int RecPort = 5001;
@@ -208,6 +208,8 @@ int main(void)
   while(true)
   {
 	  int NumTiles = 0;
+	  Distance = 0;
+	  DegreesOffNorth = 0;
 	  std::stringstream message;
 
 	  // Pass the point we are at in case we should correct it because we hit a sonar gate 
@@ -227,6 +229,7 @@ int main(void)
 	  
 	  // Broadcast the message to the App so Tim can update our location 
 	  message << "x:" << p.x << " y:" << p.y;
+	  sleep(1);
 	  AppSendMessages.push(message.str());
 	 
   }

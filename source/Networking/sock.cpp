@@ -82,14 +82,20 @@ int GetMSG(SocketItem* sockItem)
 	memset(sockItem->buffer, 0, MAXMSG);
 	msgSize = recv(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0);
 	
+	printf ("\nMessage size: %d", msgSize);
+	printf ("\nMessage %s", sockItem->buffer);
+/*
 	if (sockItem->port_rec == MAPRECVPORT)
 	{
-		MapRecvMessages.push(sockItem->buffer);
+		if(sockItem->buffer != NULL)
+			MapRecvMessages.push(sockItem->buffer);
 	}
 	else
 	{
-		AppRecvMessages.push(sockItem->buffer);
-	}
+		if(sockItem->buffer != NULL)
+			AppRecvMessages.push(sockItem->buffer);
+	}*/
+
 	return msgSize;
 }
 
@@ -104,11 +110,13 @@ int GetMSGAndConnect(SocketItem* sockItem)
 	
 	if (sockItem->port_rec == MAPRECVPORT)
 	{
-		MapRecvMessages.push(sockItem->buffer);
+		if(sockItem->buffer != NULL)
+			MapRecvMessages.push(sockItem->buffer);
 	}
 	else
 	{
-		AppRecvMessages.push(sockItem->buffer);
+		if(sockItem->buffer != NULL)
+			AppRecvMessages.push(sockItem->buffer);
 	}
 
 
@@ -127,30 +135,35 @@ int SendAppMSG(SocketItem* sockItem)
 	int status;
 
 	//Yes, I used a const-cast....shut up
-	char *msg = const_cast<char*>(AppSendMessages.top().c_str());
-	int len = AppSendMessages.top().size();
-	AppSendMessages.pop();
+	if(!AppSendMessages.empty())
+	{
+		//sleep(10);
+		std::string message = AppSendMessages.top();
+		char *msg = const_cast<char*>(message.c_str());
+		int len = message.size();
+		AppSendMessages.pop();
 
-	struct hostent *hp;     /* host information */
-	struct sockaddr_in servaddr;    /* server address */
+		struct hostent *hp;     /* host information */
+		struct sockaddr_in servaddr;    /* server address */
 
-	printf ( msg );
+		printf ( msg );
 
-	/* fill in the server's address and data */
-	memset((char*)&servaddr, 0, sizeof(servaddr));
-	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(sockItem->port_trans);
+		/* fill in the server's address and data */
+		memset((char*)&servaddr, 0, sizeof(servaddr));
+		servaddr.sin_family = AF_INET;
+		servaddr.sin_port = htons(sockItem->port_trans);
 
-	/* look up the address of the server given its name */
-	hp = gethostbyname("192.168.2.101");
+		/* look up the address of the server given its name */
+		hp = gethostbyname("192.168.2.100");
 
-	/* put the host's address into the server address structure */
-	memcpy((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);
+		/* put the host's address into the server address structure */
+		memcpy((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);
 
-	status = sendto(sockItem->ActiveSocketFD, msg, len, 0, (struct sockaddr *)&servaddr, sizeof(servaddr) );
+		status = sendto(sockItem->ActiveSocketFD, msg, len, 0, (struct sockaddr *)&servaddr, sizeof(servaddr) );
 
-	//status=send(sockItem->ActiveSocketFD,msg,len,0);
+		//status=send(sockItem->ActiveSocketFD,msg,len,0);
 
+	}
 	return status;
 }
 	

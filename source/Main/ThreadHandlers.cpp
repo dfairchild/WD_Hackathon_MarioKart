@@ -17,8 +17,10 @@ void MapListenerThread()
 	
 	do
 	{
+		memset(sock.buffer, 0, MAXMSG);
 		GetMSG(&sock);
 
+		printf("\nLOOP BITCH!");
 		// Need to add Handler to send data to map
 		// not exactly sure how this would be handled
 
@@ -30,16 +32,17 @@ void MapListenerThread()
 void AppSenderThread()
 {
 	SocketItem sock;
-	sock.port_rec = APPRECVPORT;
+	sock.port_trans = APPRECVPORT;
 
 
 	CreateSocket(&sock);
 
 	// listens for first message then connects back.
-	GetMSGAndConnect(&sock);
+	//GetMSGAndConnect(&sock);
 
 	do
 	{
+		//AppSendMessages.push("Fuck off Tim.");
 		// if a message needs to be sent to the app
 		if( !AppSendMessages.empty() )
 		{
@@ -63,9 +66,10 @@ void MapSenderThread(const char *ServerName)
 
 	do
 	{
+
 		if( !AppSendMessages.empty() )
 		{
-			SendMapMSG(&sock);
+			SendAppMSG(&sock);
 		}
 
 	}while(true);
