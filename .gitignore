@@ -27,3 +27,4 @@ source/.metadata/.plugins/org.eclipse.cdt.make.core/specs.cpp
 source/.metadata/.plugins/org.eclipse.cdt.managedbuilder.core/spec.c
 .metadata/
 source/RemoteSystemsTempFiles/.project
+source/Hackathon_Eclipse/.settings/language.settings.xml
