@@ -20,7 +20,7 @@ void APPListenerThread()
 		memset(sock.buffer, 0, MAXMSG);
 		GetMSG(&sock);
 
-		printf("\nLOOP BITCH!");
+		//printf("\nLOOP BITCH!");
 		// Need to add Handler to send data to map
 		// not exactly sure how this would be handled
 
@@ -70,7 +70,7 @@ void MapListenerThread()
 		memset(sock.buffer, 0, MAXMSG);
 		GetMSG(&sock);
 
-		printf("\nLOOP BITCH!");
+		//printf("\nLOOP BITCH!");
 		// Need to add Handler to send data to map
 		// not exactly sure how this would be handled
 

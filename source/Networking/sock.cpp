@@ -132,7 +132,7 @@ int GetMSGAndConnect(SocketItem* sockItem)
 
 int SendAppMSG(SocketItem* sockItem)
 {
-	int status;
+	int status = 0;
 
 	//Yes, I used a const-cast....shut up
 	if(!AppSendMessages.empty())
@@ -154,8 +154,8 @@ int SendAppMSG(SocketItem* sockItem)
 		servaddr.sin_port = htons(sockItem->port_trans);
 
 		/* look up the address of the server given its name */
-		// hp = gethostbyname("192.168.2.100"); // Tim's
 		hp = gethostbyname("192.168.2.55"); // Aaron's
+		//hp = gethostbyname("192.168.2.106"); // Kevin's
 
 		/* put the host's address into the server address structure */
 		memcpy((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);
