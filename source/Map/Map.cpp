@@ -371,3 +371,18 @@ void Map::PrintMap()
 		std::cout << std::endl;
 	}
 }
+
+std::string Map::GetAppSizeMap()
+{
+	std::string MiniMap;
+
+	for(float x = 0.0f; x < MAX_TILE_WIDTH; x += 2.5f)
+	{
+		for(float y = 0.0f; y < MAX_TILE_HEIGHT; y += 2.5f)
+		{
+			MiniMap += tiles[round(x)][round(y)].type;
+		}
+	}
+
+	return MiniMap;
+}

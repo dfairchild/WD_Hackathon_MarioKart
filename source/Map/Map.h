@@ -1,11 +1,12 @@
 #define MAX_CARS 10
-#define MAX_TILE_WIDTH 1000
-#define MAX_TILE_HEIGHT 1000
+#define MAX_TILE_WIDTH 500
+#define MAX_TILE_HEIGHT 500
 #define MAX_POTENTIAL_TILES 100
 #define TRACK_WIDTH_IN_TILES 10
 #define SHIFT_IN_TILES 10
 
 #include <vector>
+#include <string>
 
 // Tile types and their character values
 const char DIRT   = 'D';
@@ -80,6 +81,8 @@ public:
 
 	Tile GetTile(int x, int y);
 	void SetTile(int x, int y, const Tile tile);
+
+	std::string GetAppSizeMap();
 
 	std::vector< std::vector<Tile> >  tiles;
 

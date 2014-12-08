@@ -12,10 +12,8 @@
 
 #define MAXMSG 4096
 
-#define MAPRECVPORT 5000
-#define MAPSENDPORT 5001
-#define APPRECVPORT 6000
-#define APPSENDPORT 6001
+#define MAPPORT 5000
+#define APPPORT 6000
 
 
 struct SocketItem
@@ -41,7 +39,8 @@ int GetMSGAndConnect(SocketItem* sockItem);
 int SendAppMSG(SocketItem* sockItem);
 int SendMapMSG(SocketItem* sockItem);
 
-void MapListenerThread();
+void APPListenerThread();
 void AppSenderThread();
+void MapListenerThread();
 void MapSenderThread(const char *ServerName);
 

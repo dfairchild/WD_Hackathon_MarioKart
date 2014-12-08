@@ -30,7 +30,9 @@ void Map::LoadMap( int mapNumber, int scale ){
 		
 	// concatenate mapNumber to mapBaseFilename to get the actual filename 
 	mapFilename = mapBaseFilename;
-	mapFilename += returnVal;
+	mapFilename += '1';
+
+	mapFilename = "/home/ubuntu/remote-debugging/map1";
 
 	// create a file handle for input file stream 
 	std::ifstream mapFile;

@@ -7,14 +7,14 @@
 
 #include "..\..\source\Networking\sock.h"
 
-void MapListenerThread()
+void APPListenerThread()
 {
 	SocketItem sock;
-	sock.port_rec = MAPRECVPORT;
+	sock.port_rec = APPPORT;
 
 	printf ("\nListerner : create socket");
 	CreateSocket(&sock);
-	
+
 	do
 	{
 		memset(sock.buffer, 0, MAXMSG);
@@ -25,14 +25,14 @@ void MapListenerThread()
 		// not exactly sure how this would be handled
 
 	}while(true);
-	
+
 	CloseSockets(&sock);
 }
 
 void AppSenderThread()
 {
 	SocketItem sock;
-	sock.port_trans = APPRECVPORT;
+	sock.port_trans = APPPORT;
 
 
 	CreateSocket(&sock);
@@ -57,19 +57,41 @@ void AppSenderThread()
 	CloseSockets(&sock);
 }
 
+void MapListenerThread()
+{
+	SocketItem sock;
+	sock.port_rec = MAPPORT;
+
+	printf ("\nListerner : create socket");
+	CreateSocket(&sock);
+	
+	do
+	{
+		memset(sock.buffer, 0, MAXMSG);
+		GetMSG(&sock);
+
+		printf("\nLOOP BITCH!");
+		// Need to add Handler to send data to map
+		// not exactly sure how this would be handled
+
+	}while(true);
+	
+	CloseSockets(&sock);
+}
+
 void MapSenderThread(const char *ServerName)
 {
 	SocketItem sock;
-	sock.port_trans = MAPRECVPORT;
+	sock.port_trans = MAPPORT;
 
 	ConnectToSocket(&sock, ServerName);
 
 	do
 	{
 
-		if( !AppSendMessages.empty() )
+		if( !MapSendMessages.empty() )
 		{
-			SendAppMSG(&sock);
+			SendMapMSG(&sock);
 		}
 
 	}while(true);

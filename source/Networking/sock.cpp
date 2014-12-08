@@ -84,8 +84,8 @@ int GetMSG(SocketItem* sockItem)
 	
 	printf ("\nMessage size: %d", msgSize);
 	printf ("\nMessage %s", sockItem->buffer);
-/*
-	if (sockItem->port_rec == MAPRECVPORT)
+
+	if (sockItem->port_rec == MAPPORT)
 	{
 		if(sockItem->buffer != NULL)
 			MapRecvMessages.push(sockItem->buffer);
@@ -94,7 +94,7 @@ int GetMSG(SocketItem* sockItem)
 	{
 		if(sockItem->buffer != NULL)
 			AppRecvMessages.push(sockItem->buffer);
-	}*/
+	}
 
 	return msgSize;
 }
@@ -108,7 +108,7 @@ int GetMSGAndConnect(SocketItem* sockItem)
 
 	msgSize = recvfrom(sockItem->ActiveSocketFD,sockItem->buffer,MAXMSG,0,(struct sockaddr *) &remaddr, &addrlen);
 	
-	if (sockItem->port_rec == MAPRECVPORT)
+	if (sockItem->port_rec == MAPPORT)
 	{
 		if(sockItem->buffer != NULL)
 			MapRecvMessages.push(sockItem->buffer);
@@ -154,7 +154,8 @@ int SendAppMSG(SocketItem* sockItem)
 		servaddr.sin_port = htons(sockItem->port_trans);
 
 		/* look up the address of the server given its name */
-		hp = gethostbyname("192.168.2.100");
+		// hp = gethostbyname("192.168.2.100"); // Tim's
+		hp = gethostbyname("192.168.2.55"); // Aaron's
 
 		/* put the host's address into the server address structure */
 		memcpy((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);

@@ -83,11 +83,17 @@ void setPinMode(int pinID, int mode)
 
 void SetUpThreads()
 {
-	std::thread t1(MapListenerThread);
+	std::thread t1(APPListenerThread);
 	t1.detach();
 
 	std::thread t2(AppSenderThread);
 	t2.detach();
+
+	std::thread t3(MapListenerThread);
+	t3.detach();
+
+	// std::thread t4(MapSenderThread,"192.168.2.x");
+	// t4.detach();
 }
 
 void GetPositionInfo(float &Distance, float &DegreesOffNorth)
@@ -198,6 +204,12 @@ int main(void)
 
   map.LoadMap(1, 1);
 
+  std::string MiniMap = "M:" + map.GetAppSizeMap();
+
+  AppSendMessages.push(MiniMap);
+
+  printf("%d", sizeof(MiniMap));
+
   // DEBUG: not sure if this is needed but needs to be on either Map or App stack
   // SendMessages.push("Test Message");
 
@@ -225,6 +237,16 @@ int main(void)
 		  t.detach();
 	  }
 
+	  if ( p2.x + 50 < MAX_TILE_WIDTH)
+		  p2.x += 50;
+	  else
+	  {
+		  p2.x = 0;
+		  if ( p2.y + 50 < MAX_TILE_HEIGHT )
+			  p2.y += 50;
+		  else
+			  p2.y = 0;
+	  }
 	  p = p2;
 	  
 	  // Broadcast the message to the App so Tim can update our location 
