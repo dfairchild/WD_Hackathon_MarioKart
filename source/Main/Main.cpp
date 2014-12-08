@@ -14,11 +14,15 @@
 #include <unistd.h>
 #endif
 
+
 //stuff for initializing pins
 #define PIN_HIGH 1
 #define PIN_LOW 0
 #define PIN_OUTPUT 1
 #define PIN_INPUT 0
+#define GPIO_MODE_PATH "/sys/devices/virtual/misc/gpio/mode/"
+#define GPIO_PIN_PATH "/sys/devices/virtual/misc/gpio/pin/"
+#define GPIO_FILENAME "gpio"
 
 void setPinMode(int pinID, int mode);
 void writeFile(int fileID, int value);
